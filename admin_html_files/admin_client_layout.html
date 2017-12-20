@@ -1,0 +1,53 @@
+{% extends 'admin_workzone.html' %}
+
+{% block content %}
+
+	<nav class="navbar navbar-light sidebar" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<h5> {{client_name}} </h5>
+			</div>
+			<ul class="nav navbar-nav">
+				<li class="active"> <a href="client_profile"> Profile </a> </li>
+				<li> <a href="client_limits"> Limits </a> </li>
+				<li> <a href="client_relations"> Relations </a> </li>
+				<li> <a href="#"> Users </a> </li>
+				<li> <a href="#"> Upload Invoice </a> </li>
+				<li> <a href="client_open_invoices"> Open Invoices </a> </li>
+				<li> <a href="client_history"> History </a> </li>
+			</ul>
+		</div>
+	</nav>
+
+	<div class="main" style="padding-left: 2%">
+        <div>
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-3 col-md-offset-6">
+				<div class="btn-group" role="group" aria-label="...">
+					{% if page_type %}
+						{% if page_type == 'supplier' %}
+							<a href="buyer"><button type="button" class="btn btn-secondary">Buyer</button></a>
+							<a href="supplier"><button type="button" class="btn btn-primary">Supplier</button></a>
+						{% else %}
+							<a href="buyer"><button type="button" class="btn btn-primary">Buyer</button></a>
+							<a href="supplier"><button type="button" class="btn btn-secondary">Supplier</button></a>
+						{% endif %}
+					{% else %}
+						<a href="buyer"><button type="button" class="btn btn-primary">Buyer</button></a>
+						<a href="supplier"><button type="button" class="btn btn-secondary">Supplier</button></a>
+					{% endif %}
+				</div>
+            </div>
+        </div>
+
+        <hr/>
+
+        <div class="container">
+            {% block client_content %}
+            {% endblock %}
+        </div>
+
+	</div>
+
+{% endblock %}

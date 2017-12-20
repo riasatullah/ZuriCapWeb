@@ -1,0 +1,140 @@
+{% extends 'admin_client_layout.html' %}
+
+{% block client_content %}
+
+{% if messages %}
+    <div class="alert alert-success" style="text-align: center; margin-left: 25%; margin-right: 25%">
+        {% for msg in messages %}
+            <strong> {{ msg }} </strong>
+            <br>
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% if has_errors %}
+    <div class="alert alert-danger" style="text-align: center; margin-left: 25%; margin-right: 25%">
+        {% for error in has_errors %}
+            <strong> ** {{ error }} </strong>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<input type="hidden" id="selected_buyer_approval" value={{ buyer_approval }}>
+<input type="hidden" id="selected_supplier_approval" value={{ supplier_approval }}>
+<input type="hidden" id="selected_rm_name" value="{{ rm_name }}">
+
+
+<div class="panel panel-default">
+    <div class="panel-heading panel-heading-custom">
+        <strong> Edit Relations </strong>
+    </div>
+    <div class="panel-body">
+        <form method="post" onsubmit="return confirm('Are you sure you want to save these changes?');">
+
+            {% csrf_token %}
+
+            <input type="hidden" id="buyer_id" name="buyer_id" value={{ buyer_id }}>
+            <input type="hidden" id="buyer_name" name="buyer_name" value="{{ buyer_name }}">
+            <input type="hidden" id="supplier_id" name="supplier_id" value={{ supplier_id }}>
+            <input type="hidden" id="supplier_name" name="supplier_name" value="{{ supplier_name }}">
+
+            <div class="form-group-row">
+                <div class="col-md-6">
+                    <label class="form-label" style="font-weight: normal !important"> Buyer </label>
+                    <input class="form-control" type="text" value="{{ buyer_name }}" disabled>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" style="font-weight: normal !important"> Supplier </label>
+                    <input class="form-control" type="text" value="{{ supplier_name }}" disabled>
+                </div>
+            </div>
+            <br/>
+
+            <div class="form-group-row">
+                <div class="col-md-6">
+                    <label class="form-label" style="font-weight: normal !important"> Buyer Fraction </label>
+                    <input class="form-control" type="number" id="buyer_fraction"
+                           name="buyer_fraction" value={{ buyer_fraction }}>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" style="font-weight: normal !important"> Supplier Fraction </label>
+                    <input class="form-control" type="number" id="supplier_fraction"
+                           name="supplier_fraction" value={{ supplier_fraction }}>
+                </div>
+            </div>
+            <br/>
+
+            <div class="form-group-row">
+                <div class="col-md-6">
+                    <label class="form-label" style="font-weight: normal !important"> Buyer Approval </label>
+                    <select class="form-control" id="buyer_approval" name="buyer_approval">
+                        <option value=0 selected> Yes </option>
+                        <option value=1> No </option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" style="font-weight: normal !important"> Supplier Approval </label>
+                    <select class="form-control" id="supplier_approval" name="supplier_approval">
+                        <option value=0> Yes </option>
+                        <option value=1 selected> No </option>
+                    </select>
+                </div>
+            </div>
+            <br/>
+
+            <div class="form-group-row">
+                <div class="col-md-6">
+                    <label class="form-label" style="font-weight: normal !important"> Start Date </label>
+                    <input class="form-control" type="text" id="start_date"
+                           name="start_date" value="{{ start_date }}" disabled>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" style="font-weight: normal !important"> End Date </label>
+                    <input class="form-control" type="text" id="end_date"
+                           name="end_date" value="{{ end_date }}" disabled>
+                </div>
+            </div>
+            <br/>
+
+            <div class="form-group-row">
+                <div class="col-md-6">
+                    <label class="form-label" style="font-weight: normal !important"> Relationship Manager </label>
+                    <select class="form-control" id="rm_name" name="rm_name">
+                        {% for item in rm_name %}
+							<option value="{{ item }}"> {{ item }} </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <br/>
+
+            <div class="form-group-row">
+                <div class="col-md-6">
+                    <button type="submit" id="btn_edit" class="btn btn-primary"> Save </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script language="JavaScript" type="text/javascript">
+    selected_buyer_approval = document.getElementById('selected_buyer_approval').value;
+    if (selected_buyer_approval == 0){
+        document.getElementById('buyer_approval').selected = 0;
+    }
+
+    selected_supplier_approval = document.getElementById('selected_supplier_approval').value;
+    if (selected_supplier_approval == 0){
+        document.getElementById('supplier_approval').selected = 0;
+    }
+
+    selected_active = document.getElementById('selected_active').value;
+    if (selected_active == 1) {
+        document.getElementById('active').value = 1;
+    }
+
+    selected_rm_name = document.getElementById('selected_rm_name').value;
+    document.getElementById('rm_name').value = selected_rm_name;
+</script>
+
+{% endblock %}

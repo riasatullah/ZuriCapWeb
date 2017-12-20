@@ -1,0 +1,105 @@
+{% extends 'admin_client_layout.html' %}
+
+{% block client_content %}
+
+{% if messages %}
+    <div class="alert alert-success" style="text-align: center; margin-left: 25%; margin-right: 25%">
+        {% for msg in messages %}
+            <strong> {{ msg }} </strong>
+            <br>
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% if has_errors %}
+    <div class="alert alert-danger" style="text-align: center; margin-left: 25%; margin-right: 25%">
+        {% for error in has_errors %}
+            <strong> ** {{ error }} </strong>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<div class="panel panel-default">
+    <div class="panel-heading panel-heading-custom">
+        <strong> Client Limits </strong>
+    </div>
+    <div class="panel-body">
+        <form method="post" action="edit_client_limits">
+            {% csrf_token %}
+            <table class="table table-condensed table-bordered">
+                <thead class="background-custom">
+                    <tr>
+                        <th colspan="3"> Discounting Max </th>
+                        <th colspan="3"> Invoicing Max </th>
+                    </tr>
+                    <tr>
+                        <th> GIV </th>
+                        <th> Single IV </th>
+                        <th> Invoice Count</th>
+                        <th> GIV </th>
+                        <th> Single IV </th>
+                        <th> Invoice Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> <input type="number" id="discounting_max_giv"
+                                    value={{ discounting_max_giv }} disabled> </td>
+                        <td> <input type="number" id="discounting_max_single_iv"
+                                    value={{ discounting_max_single_iv }} disabled> </td>
+                        <td> <input type="number" id="discounting_max_invoice_count"
+                                    value={{ discounting_max_invoice_count }} disabled> </td>
+                        <td> <input type="number" id="invoicing_max_giv"
+                                    value={{ invoicing_max_giv }} disabled> </td>
+                        <td> <input type="number" id="invoicing_max_single_iv"
+                                    value={{ invoicing_max_single_iv }} disabled> </td>
+                        <td> <input type="number" id="invoicing_max_invoice_count"
+                                    value={{ invoicing_max_invoice_count }} disabled> </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div>
+                <button type="submit" id="btn_save" class="btn btn-primary"> Edit </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading panel-heading-custom">
+        <strong> Relationship Limits </strong>
+    </div>
+    <div class="panel-body">
+        <table class="table table-condensed table-bordered">
+            <thead class="background-custom">
+                <tr>
+                    <th> Buyer </th>
+                    <th> Supplier </th>
+                    <th> Max GIV </th>
+                    <th> Max Single IV </th>
+                    <th> Max Invoice Count </th>
+                    <th> </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for limit in relation_limits %}
+                    <form method="post" action="edit_relation_limits">
+                        {% csrf_token %}
+                        <input type="hidden" id="buyer_id" name="buyer_id" value={{ limit.buyer_id }}>
+                        <input type="hidden" id="supplier_id" name="supplier_id" value={{ limit.supplier_id }}>
+                        <tr>
+                            <td> {{ limit.buyer_name }} </td>
+                            <td> {{ limit.supplier_name }} </td>
+                            <td> <input type="number" value="{{ limit.relation_max_giv }}" disabled> </td>
+                            <td> <input type="number" value="{{ limit.relation_max_single_iv }}" disabled></td>
+                            <td> <input type="number" value="{{ limit.relation_max_invoice_count }}" disabled></td>
+                            <td> <button type="submit" class="btn btn-link"> Edit </button></td>
+                        </tr>
+                    </form>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

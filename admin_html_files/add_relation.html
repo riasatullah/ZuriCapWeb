@@ -1,0 +1,109 @@
+{% extends 'admin_client_layout.html' %}
+
+{% block client_content %}
+
+{% if messages %}
+    <div class="alert alert-success" style="text-align: center; margin-left: 25%; margin-right: 25%">
+        {% for msg in messages %}
+            <strong> {{ msg }} </strong>
+            <br>
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% if has_errors %}
+    <div class="alert alert-danger" style="text-align: center; margin-left: 25%; margin-right: 25%">
+        {% for error in has_errors %}
+            <strong> ** {{ error }} </strong>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<div class="panel panel-default">
+    <div class="panel-heading panel-heading-custom">
+        <strong> New Relation </strong>
+    </div>
+    <div class="panel-body">
+        <form method="post">
+
+            {% csrf_token %}
+
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="start_date">Start date:</label>
+                <div class="col-md-4">
+                    <input type="text" id="start_date" name="start_date" class="form-control"
+                           value="{{ start_date }}" required>
+                </div>
+            </div>
+            <br/>
+
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="buyer">Buyer:</label>
+                <div class="col-md-4">
+                    <select class="form-control" id="buyer" name="buyer">
+                        {% for key, value in client.items %}
+                            <option value={{ key }}> {{ value }} </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <label class="col-md-2 col-form-label" for="supplier">Supplier:</label>
+                <div class="col-md-4">
+                    <select class="form-control" id="supplier" name="supplier">
+                        {% for key, value in client.items %}
+                            <option value={{ key }}> {{ value }} </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <br/>
+
+
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="buyer_fraction">Buyer fraction:</label>
+                <div class="col-md-4">
+                    <input type="number" id="buyer_fraction" name="buyer_fraction" class="form-control">
+                </div>
+                <label class="col-md-2 col-form-label" for="supplier_fraction">Supplier fraction:</label>
+                <div class="col-md-4">
+                    <input type="number" id="supplier_fraction" name="supplier_fraction" class="form-control">
+                </div>
+            </div>
+            <br/>
+
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="buyer_approval">Buyer approval:</label>
+                <div class="col-md-4">
+                    <select class="form-control" id="buyer_approval" name="buyer_approval">
+                        <option value=0 selected> Yes </option>
+                        <option value=1> No </option>
+                    </select>
+                </div>
+                <label class="col-md-2 col-form-label" for="supplier_approval">Supplier approval:</label>
+                <div class="col-md-4">
+                    <select class="form-control" id="supplier_approval" name="supplier_approval">
+                        <option value=0> Yes </option>
+                        <option value=1 selected> No </option>
+                    </select>
+                </div>
+            </div>
+            <br/>
+
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="rm_name">Relationship Manager:</label>
+                <div class="col-md-4">
+                    <select class="form-control" id="rm_name" name="rm_name">
+                        {% for item in rm_name %}
+                            <option value={{ item }}> {{ item }} </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <br/>
+
+            <div class="row col-md-3">
+                <button type="submit" id="btn_save" class="btn btn-primary"> Add </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

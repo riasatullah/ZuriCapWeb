@@ -1,0 +1,185 @@
+{% extends 'admin_client_layout.html' %}
+
+{% block client_content %}
+
+{% if messages %}
+    <div class="alert alert-success" style="text-align: center; margin-left: 25%; margin-right: 25%">
+        {% for msg in messages %}
+            <strong> {{ msg }} </strong>
+            <br>
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% if has_errors %}
+    <div class="alert alert-danger" style="text-align: center; margin-left: 25%; margin-right: 25%">
+        {% for error in has_errors %}
+            <strong> ** {{ error }} </strong>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<input type="hidden" id="edit" name="edit" value="{{ edit }}">
+<input type="hidden" id="selected_country" value="{{ country }}">
+<input type="hidden" id="selected_client_type" value="{{ client_type }}">
+<input type="hidden" id="selected_industry" value="{{ industry }}">
+<input type="hidden" id="selected_client_size" value="{{ client_size }}">
+
+<div class="panel panel-default">
+    <div class="panel-heading panel-heading-custom"> Client Profile </div>
+
+    <div class="panel-body">
+
+        <form method="post" action="edit_profile">
+
+            {% csrf_token %}
+
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="client_name">Client name:</label>
+                <div class="col-md-4">
+                    <input type="text" id="client_name" name="client_name" class="form-control"
+                           value="{{ client_name }}" disabled required>
+                </div>
+            </div>
+            <br/>
+
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="address">Address:</label>
+                <div class="col-md-4">
+                    <input type="text" id="address" name="address" class="form-control"
+                           value="{{ address }}" disabled required>
+                </div>
+                <label class="col-md-2 col-form-label" for="city">City:</label>
+                <div class="col-md-4">
+                    <input type="text" id="city" name="city" class="form-control"
+                           value="{{ city }}" disabled required>
+                </div>
+            </div>
+            <br/>
+
+
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="client_zip">Zip:</label>
+                <div class="col-md-4">
+                    <input type="text" id="client_zip" name="client_zip" class="form-control"
+                           value="{{ client_zip }}" disabled required>
+                </div>
+                <label class="col-md-2 col-form-label" for="country">Country:</label>
+                <div class="col-md-4">
+                    <select id="country" name="country" class="form-control" disabled>
+                        <option value="KENYA">KENYA</option>
+                    </select>
+                </div>
+            </div>
+            <br/>
+
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="registration">Registration no:</label>
+                <div class="col-md-4">
+                    <input type="text" id="registration" name="registration" class="form-control"
+                           value="{{ registration }}" disabled>
+                </div>
+                <label class="col-md-2 col-form-label" for="tax_pin">Tax pin:</label>
+                <div class="col-md-4">
+                    <input type="text" id="tax_pin" name="tax_pin" class="form-control"
+                           value="{{ tax_pin }}" disabled required>
+                </div>
+            </div>
+            <br/>
+
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="office_phone">Phone:</label>
+                <div class="col-md-4">
+                    <input type="text" id="office_phone" name="office_phone" class="form-control"
+                           value="{{ office_phone }}" disabled required>
+                </div>
+
+                <label class="col-md-2 col-form-label" for="description">Description:</label>
+                <div class="col-md-4">
+                    <input type="text" id="description" name="description" class="form-control"
+                           value="{{ description }}" disabled>
+                </div>
+            </div>
+            <br/>
+
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="client_type">Type:</label>
+                <div class="col-md-4">
+                    <select id="client_type" name="client_type" class="form-control" disabled>
+                        <option value='BUYER'>BUYER</option>
+                        <option value='SUPPLIER'>SUPPLIER</option>
+                        <option value='BOTH'>BOTH</option>
+                    </select>
+                </div>
+            </div>
+            <br/>
+
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="industry">Industry:</label>
+                <div class="col-md-4">
+                    <select id="industry" name="industry" class="form-control" disabled>
+                        <option value="FARMING">FARMING</option>
+                        <option value="MILLING">MILLING</option>
+                        <option value="DAIRY">DAIRY</option>
+                        <option value="CONSTRUCTION">CONSTRUCTION</option>
+                        <option value="LOGISTICS">LOGISTICS</option>
+                        <option value="HORTICULTURE">HORTICULTURE</option>
+                        <option value="FOOD PROCESSING">FOOD PROCESSING</option>
+                    </select>
+                </div>
+                <label class="col-md-2 col-form-label" for="client_size">Size:</label>
+                <div class="col-md-4">
+                    <select id="client_size" name="client_size" class="form-control" disabled>
+                        <option value="INDIVIDUAL">INDIVIDUAL</option>
+                        <option value="SMALL">SMALL</option>
+                        <option value="MEDIUM">MEDIUM</option>
+                        <option value="LARGE">LARGE</option>
+                    </select>
+                </div>
+            </div>
+            <br/>
+
+            <div class="row col-md-3">
+                {% if edit == 1 %}
+                    <button type="submit" id="btn_save" class="btn btn-primary"> Save </button>
+                {% endif %}
+            </div>
+        </form>
+        {% if edit == 2 %}
+            <a href="edit_profile">
+                <button type="button" class="btn btn-primary"> Edit </button>
+            </a>
+        {% endif %}
+    </div>
+</div>
+
+<script language="JavaScript" type="text/javascript">
+    selected_country = document.getElementById('selected_country').value;
+    document.getElementById('country').value = selected_country;
+
+    selected_client_type = document.getElementById('selected_client_type').value;
+    document.getElementById('client_type').value = selected_client_type;
+
+    selected_industry = document.getElementById('selected_industry').value;
+    document.getElementById('industry').value = selected_industry;
+
+    selected_client_size = document.getElementById('selected_client_size').value;
+    document.getElementById('client_size').value = selected_client_size;
+
+    to_edit = document.getElementById('edit').value;
+    if (to_edit == "1"){
+        var inputs = document.getElementsByTagName('input');
+        for(var i = 0; i < inputs.length; i++) {
+            if (inputs[i].id != 'client_name'){
+                inputs[i].disabled = false;
+            }
+        }
+
+        var selects = document.getElementsByTagName('select');
+        for(var i = 0; i < inputs.length; i++) {
+            selects[i].disabled = false;
+        }
+    }
+</script>
+
+{% endblock %}

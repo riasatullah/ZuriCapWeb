@@ -1,0 +1,143 @@
+{% load staticfiles %}
+
+<html lang="en">
+
+<head>
+
+<title>ZuriCap - {{ title }}</title>
+<link rel="canonical" href=""/>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<link rel="stylesheet" href="{% static 'css/workzone.css' %}">
+<link rel="stylesheet" href="{% static 'css/theme.css' %}">
+
+</head>
+
+<body>
+
+
+<div class="container-fluid" style="margin-top:10px">
+
+	<div class="col-md-3">
+		<a href="login"><img id="logo-main" src="{% static 'images/logo.png' %}" width="150" alt="ZuriCap"></a>
+	</div>
+	<div class="container col-md-3 col-md-offset-6">
+		<strong style="margin-right: 10px"> {{title}} </strong>
+		<div class="btn-group" role="group" aria-label="...">
+			{% if page_type %}
+				{% if page_type == 'supplier' %}
+					<a href="buyer"><button type="button" class="btn btn-secondary">Buyer</button></a>
+					<a href="supplier"><button type="button" class="btn btn-primary">Supplier</button></a>
+				{% else %}
+					<a href="buyer"><button type="button" class="btn btn-primary">Buyer</button></a>
+					<a href="supplier"><button type="button" class="btn btn-secondary">Supplier</button></a>
+				{% endif %}
+			{% else %}
+				<a href="buyer"><button type="button" class="btn btn-primary">Buyer</button></a>
+				<a href="supplier"><button type="button" class="btn btn-secondary">Supplier</button></a>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+<hr class="style-top">
+
+<div class="container-fluid">
+
+<nav class="navbar navbar-light sidebar" role="navigation">
+
+	<div class="container-fluid">
+
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-sidebar-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<h4 style="color: #054763">
+				<strong>Hi {{username}} </strong>
+			</h4>
+		</div>
+
+		<div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				<li class="active">
+					<a href="upload_invoice">Upload invoice
+						<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-upload"></span>
+					</a>
+				</li>
+				<li >
+					<a href="open_invoices">Open invoices
+						<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-list-alt"></span>
+					</a>
+				</li>
+				<li >
+					<a href="history">History
+						<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-list"></span>
+					</a>
+				</li>
+				<li >
+					<a href="payments">Payments
+						<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-th"></span>
+					</a>
+				</li>
+				<li >
+					<a href="reports">Reports
+						<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-stats"></span>
+					</a>
+				</li>
+				<li >
+					<a href="settings">Settings
+						<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-cog"></span>
+					</a>
+				</li>
+				<li >
+					<a href="logout">Logout</a>
+				</li>
+
+			</ul>
+
+		</div>
+
+	</div>
+
+	</nav>
+
+
+<div class="main" style="padding-left: 2%">
+	{% if has_erros %}
+		{% for error in has_errors %}
+            <div class="alert alert-danger" style="text-align: center; margin-left: 25%; margin-right: 25%">
+				<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-remove"></span>
+				{{ error }}
+            </div>
+		{% endfor %}
+	{% endif %}
+	{% block content %}
+	{% endblock %}
+
+</div>
+
+
+
+</div>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+</body>
+
+</html>

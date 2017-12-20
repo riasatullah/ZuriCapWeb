@@ -1,0 +1,45 @@
+{% extends 'admin_client_layout.html' %}
+
+{% block client_content %}
+
+<div class="panel panel-default">
+    <div class="panel-heading panel-heading-custom">
+        <strong> Relationship Limits </strong>
+    </div>
+    <div class="panel-body">
+        <form method="post" action="save_relation_limits">
+
+            {% csrf_token %}
+
+            <input type="hidden" id="buyer_id" name="buyer_id" value={{ buyer_id }}>
+            <input type="hidden" id="supplier_id" name="supplier_id" value={{ supplier_id }}>
+            <table class="table table-condensed table-bordered">
+                <thead class="background-custom">
+                    <tr>
+                        <th> Buyer </th>
+                        <th> Supplier </th>
+                        <th> Max GIV </th>
+                        <th> Max Single IV </th>
+                        <th> Max Invoice Count </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> {{ buyer_name }} </td>
+                        <td> {{ supplier_name }} </td>
+                        <td> <input type="number" name="relation_max_giv" value="{{ relation_max_giv }}"> </td>
+                        <td> <input type="number" name="relation_max_single_iv"
+                                    value="{{ relation_max_single_iv }}"></td>
+                        <td> <input type="number" name="relation_max_invoice_count"
+                                    value="{{ relation_max_invoice_count }}"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div>
+                <button type="submit" id="btn_save" class="btn btn-primary"> Save </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

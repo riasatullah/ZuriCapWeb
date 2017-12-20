@@ -1,0 +1,11 @@
+hr.style-top {
+	height: 10px;
+	border: 0;
+	box-shadow: 0 10px 10px -10px #8c8b8b inset;
+}
+
+.panel-default > .panel-heading-custom {
+	background-image: none;
+	background-color: #054763;
+	color: #ffffff;
+}

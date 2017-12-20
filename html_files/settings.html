@@ -1,0 +1,58 @@
+{% extends 'workzone.html' %}
+
+{% block content %}
+
+{% if messages %}
+    <div class="alert alert-success" style="text-align: center; margin-left: 25%; margin-right: 25%">
+        {% for msg in messages %}
+            <strong> {{ msg }} </strong>
+            <br>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<div class="container col-md-8 col-md-offset-2">
+    <div class="panel panel-default">
+        <div class="panel-heading panel-heading-custom">
+            User Info
+        </div>
+        <div class="panel-body">
+            <div class="form-group row">
+                <label>Company: </label>
+                <label> {{ data.client_name }} </label>
+            </div>
+            <div class="form-group row">
+                <label>First name: </label>
+                <label> {{ data.first_name }} </label>
+            </div>
+            <div class="form-group row">
+                <label>Last name: </label>
+                <label> {{ data.last_name }} </label>
+            </div>
+            <div class="form-group row">
+                <label>Title: </label>
+                <label> {{ data.title }} </label>
+            </div>
+            <div class="form-group row">
+                <label>Email: </label>
+                <label> {{ data.email }} </label>
+            </div>
+            <div class="form-group row">
+                <label>Office phone: </label>
+                <label> {{ data.office_phone }} </label>
+            </div>
+            <div class="form-group row">
+                <label>Cell phone: </label>
+                <label> {{ data.cell_phone }} </label>
+            </div>
+            <br>
+            <div class="form-group row">
+                <a href="change_password" class="btn btn-primary active" role="button" aria-pressed="true">
+                    Change password
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,12 @@
+{% for client in data %}
+    <form method="post" action="client_profile">
+        {% csrf_token %}
+        <input type="hidden" id="client_name" name="client_name" value="{{ client.client_name }}">
+        <tr>
+            <td> <button type="submit" class="btn btn-link"> {{ client.client_name }} </button> </td>
+            <td> {{ client.client_type }} </td>
+            <td> {{ client.industry }} </td>
+            <td> {{ client.client_status }} </td>
+        </tr>
+    </form>
+{% endfor %}

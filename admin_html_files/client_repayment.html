@@ -1,0 +1,107 @@
+{% extends 'admin_client_layout.html' %}
+
+{% block client_content %}
+
+<script language="JavaScript" type="text/javascript">
+	function enableButton(){
+		if (document.getElementById("confirmation").checked){
+			document.getElementById("btn_repayment").disabled = false;
+		} else {
+			document.getElementById("btn_repayment").disabled = true;
+		}
+	}
+</script>
+
+{% if messages %}
+    <div class="alert alert-success" style="text-align: center; margin-left: 25%; margin-right: 25%">
+        {% for msg in messages %}
+            <strong> {{ msg }} </strong>
+            <br>
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% if has_errors %}
+    <div class="alert alert-danger" style="text-align: center; margin-left: 25%; margin-right: 25%">
+        {% for error in has_errors %}
+            <strong> ** {{ error }} </strong>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<div class="panel panel-default col-md-6 col-md-offset-3">
+    <div class="panel-heading panel-heading-custom">
+        <strong> Repayment </strong>
+    </div>
+    <div class="panel-body">
+        <form method="post" action="save_client_repayment">
+            {% csrf_token %}
+            <h5> This repayment will apply to the oldest open invoices. </h5>
+
+            <div class="form-group row">
+                <label class="col-md-4 col-form-label" for="repayment_date">Repaid on:</label>
+                <div class="col-md-8">
+                    <input type="text" id="repayment_date" name="repayment_date" class="form-control">
+                </div>
+            </div>
+            <br>
+            <div class="form-group row">
+                <label class="col-md-4 col-form-label" for="repaid_amount">Amount (KES):</label>
+                <div class="col-md-8">
+                    <input type="number" id="repaid_amount" name="repaid_amount" class="form-control">
+                </div>
+            </div>
+            <br>
+            <div class="form-group row">
+                <label class="col-md-4 col-form-label" for="repayment_transaction_cost">
+                    Fees (KES):</label>
+                <div class="col-md-8">
+                    <input type="number" id="repayment_transaction_cost"
+                           name="repayment_transaction_cost" class="form-control">
+                </div>
+            </div>
+            <br>
+            <div class="form-group row">
+                <label class="col-md-4 col-form-label" for="repayment_payment_type">
+                    Payment Type:
+                </label>
+                <div class="col-md-8">
+                    <select class="form-control" id="repayment_payment_type" name="repayment_payment_type">
+                        <option value="PESALINK"> PESALINK </option>
+                        <option value="MPESA"> MPESA </option>
+                        <option value="RTGS"> RTGS </option>
+                        <option value="DEPOSIT"> DEPOSIT </option>
+                    </select>
+                </div>
+            </div>
+            <br>
+            <div class="form-group row">
+                <label class="col-md-4 col-form-label" for="repayment_notes">
+                    Notes
+                </label>
+                <div class="col-md-8">
+                    <input type="text" id="repayment_notes" name="repayment_notes" class="form-control">
+                </div>
+            </div>
+            <br>
+
+            <div class="form-group row">
+                <label class="col-md-12 custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input"
+                           id="confirmation" onclick="enableButton()">
+                    <span class="custom-control-description">
+                        Confirm that this payment was made by {{ client_name }}
+                    </span>
+                </label>
+            </div>
+            <br>
+
+            <div class="row col-md-3">
+                <button type="submit" class="btn btn-labeled btn-primary" id="btn_repayment"
+                        disabled> Log Repayment </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

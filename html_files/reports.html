@@ -1,0 +1,72 @@
+{% extends 'workzone.html' %}
+
+{% block content %}
+
+<div class="panel panel-default">
+	<div class="panel-heading panel-heading-custom">
+        <strong> Reports </strong>
+    </div>
+	<div class="panel-body">
+        <form method="post">
+            {% csrf_token %}
+            <label class="col-md-1">Report:</label>
+            <div class="col-md-4">
+                <select class="form-control" id="report_type" name="report_type">
+                    <option selected value=1>Invoice values</option>
+                    <option value=2>GIV</option>
+                    <option value=3>Invoice count</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select class="form-control" id="timeline" name="timeline">
+                    <option selected value=60>Last 60 days</option>
+                    <option value=120>Last 120 days</option>
+                    <option value=360>Last year</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary" id="btn_generate">Generate</button>
+        </form>
+	</div>
+</div>
+
+
+<canvas id="myChart"></canvas>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js" />
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+integrity="sha384Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+var ctx = document.getElementById("myChart").getContext('2d');
+var myChart = new Chart(ctx, {
+    type: '{{ chart_type }}',
+    data: {
+        labels: {{ labels|safe }},
+        datasets: [{
+            label: 'Invoices',
+            data: {{ values }},
+            backgroundColor: 'rgba(0,0,0,0.2)',
+            borderColor: 'rgba(255,99,132,1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+</script>
+
+{% endblock %}

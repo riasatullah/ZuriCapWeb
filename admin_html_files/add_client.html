@@ -1,0 +1,144 @@
+{% extends 'admin_workzone.html' %}
+
+{% block content %}
+
+{% if messages %}
+    <div class="alert alert-success" style="text-align: center; margin-left: 25%; margin-right: 25%">
+        {% for msg in messages %}
+            <strong> {{ msg }} </strong>
+            <br>
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% if has_errors %}
+    <div class="alert alert-danger" style="text-align: center; margin-left: 25%; margin-right: 25%">
+        {% for error in has_errors %}
+            <strong> ** {{ error }} </strong>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<div class="panel panel-default col-md-10 col-md-offset-1">
+    <div class="panel-heading panel-heading-custom"> New Client </div>
+
+    <div class="panel-body">
+
+        <form method="post" action="add_client">
+
+            {% csrf_token %}
+
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="start_date">Start date:</label>
+                <div class="col-md-4">
+                    <input type="text" id="start_date" name="start_date" class="form-control"
+                           value="{{ start_date }}" required>
+                </div>
+            </div>
+            <br/>
+
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="client_name">Client name:</label>
+                <div class="col-md-4">
+                    <input type="text" id="client_name" name="client_name" class="form-control" required>
+                </div>
+            </div>
+            <br/>
+
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="address">Address:</label>
+                <div class="col-md-4">
+                    <input type="text" id="address" name="address" class="form-control">
+                </div>
+                <label class="col-md-2 col-form-label" for="city">City:</label>
+                <div class="col-md-4">
+                    <input type="text" id="city" name="city" class="form-control">
+                </div>
+            </div>
+            <br/>
+
+
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="client_zip">Zip:</label>
+                <div class="col-md-4">
+                    <input type="text" id="client_zip" name="client_zip" class="form-control">
+                </div>
+                <label class="col-md-2 col-form-label" for="country">Country:</label>
+                <div class="col-md-4">
+                    <select id="country" name="country" class="form-control">
+                        <option value="KENYA">KENYA</option>
+                    </select>
+                </div>
+            </div>
+            <br/>
+
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="registration">Registration no:</label>
+                <div class="col-md-4">
+                    <input type="text" id="registration" name="registration" class="form-control">
+                </div>
+                <label class="col-md-2 col-form-label" for="tax_pin">Tax pin:</label>
+                <div class="col-md-4">
+                    <input type="text" id="tax_pin" name="tax_pin" class="form-control">
+                </div>
+            </div>
+            <br/>
+
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="office_phone">Phone:</label>
+                <div class="col-md-4">
+                    <input type="text" id="office_phone" name="office_phone" class="form-control">
+                </div>
+
+                <label class="col-md-2 col-form-label" for="description">Description:</label>
+                <div class="col-md-4">
+                    <input type="text" id="description" name="description" class="form-control">
+                </div>
+            </div>
+            <br/>
+
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="client_type">Type:</label>
+                <div class="col-md-4">
+                    <select id="client_type" name="client_type" class="form-control">
+                        <option value='BUYER'>BUYER</option>
+                        <option value='SUPPLIER'>SUPPLIER</option>
+                        <option value='BOTH'>BOTH</option>
+                    </select>
+                </div>
+            </div>
+            <br/>
+
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="industry">Industry:</label>
+                <div class="col-md-4">
+                    <select id="industry" name="industry" class="form-control">
+                        <option value="FARMING">FARMING</option>
+                        <option value="MILLING">MILLING</option>
+                        <option value="DAIRY">DAIRY</option>
+                        <option value="CONSTRUCTION">CONSTRUCTION</option>
+                        <option value="LOGISTICS">LOGISTICS</option>
+                        <option value="HORTICULTURE">HORTICULTURE</option>
+                        <option value="FOOD PROCESSING">FOOD PROCESSING</option>
+                    </select>
+                </div>
+                <label class="col-md-2 col-form-label" for="client_size">Size:</label>
+                <div class="col-md-4">
+                    <select id="client_size" name="client_size" class="form-control">
+                        <option value="INDIVIDUAL">INDIVIDUAL</option>
+                        <option value="SMALL">SMALL</option>
+                        <option value="MEDIUM">MEDIUM</option>
+                        <option value="LARGE">LARGE</option>
+                    </select>
+                </div>
+            </div>
+            <br/>
+
+            <div class="row col-md-3">
+                <button type="submit" id="btn_save" class="btn btn-primary"> Add </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

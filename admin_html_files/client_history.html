@@ -1,0 +1,222 @@
+{% extends 'admin_client_layout.html' %}
+
+{% block client_content %}
+
+<div class="col-md-12">
+    <ul class="pager">
+		{% if row_multiplier > 1 %}
+			<li><a href="prev_rows"> < </a></li>
+		{% endif %}
+		{% if row_count >= 100 %}
+			<li><a href="next_rows"> > </a></li>
+		{% endif %}
+	</ul>
+	<div class="panel panel-default">
+		<div class="panel-heading panel-heading-custom">
+			<strong> History </strong>
+		</div>
+		<div class="panel-body">
+			<table class="table table-condensed table-bordered">
+				<thead class="background-custom">
+					<tr>
+						<th> Submitted on </th>
+						<th> Invoice no </th>
+						<th> Buyer </th>
+						<th> Supplier </th>
+						<th> Amount </th>
+						<th> Total financed </th>
+						<th> Total repaid </th>
+						<th> Status </th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for item in data %}
+						<tr>
+							<td> {{ item.submitted_on }} </td>
+							<td>
+								<button type="button" class="btn btn-link"
+										data-toggle="modal" data-target="#{{ item.invoice_ref_id }}">
+								{{ item.invoice_ref_id }}
+								</button>
+							</td>
+							<td> {{ item.buyer_name }} </td>
+							<td> {{ item.supplier_name }} </td>
+							<td> {{ item.invoice_total }} </td>
+							<td> {{ item.total_financed }} </td>
+							<td> {{ item.total_repayments }} </td>
+							<td> {{ item.invoice_status }} </td>
+						</tr>
+
+<div class="modal fade" id="{{ item.invoice_ref_id }}">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<div class="col-md-6">
+							<h5 style="text-align: left;"> {{ item.invoice_ref_id }} </h5>
+						</div>
+						<h5 style="text-align: right;"> {{ item.invoice_status }} </h5>
+					</div>
+					<div class="panel-body">
+						<form>
+							<div class="form-group-row">
+								<div class="col-md-4">
+									<label style="font-weight: normal !important">Submitted on</label>
+									<label class="form-control"> {{ item.submitted_on }} </label>
+								</div>
+								<div class="col-md-8">
+									<label style="font-weight: normal !important">Buyer</label>
+									<label class="form-control"> {{ item.buyer_name }} </label>
+								</div>
+							</div>
+							<div class="form-group-row">
+								<div class="col-md-4">
+									<label style="font-weight: normal !important">Approved on</label>
+									<label class="form-control"> {{ item.approved_on }} </label>
+								</div>
+								<div class="col-md-8">
+									<label style="font-weight: normal !important">Supplier</label>
+									<label class="form-control"> {{ item.supplier_name }} </label>
+								</div>
+							</div>
+							<div class="form-group-row">
+								<div class="col-md-4">
+									<label style="font-weight: normal !important">Date on invoice</label>
+									<label class="form-control"> {{ item.invoice_date }} </label>
+								</div>
+								<div class="col-md-8">
+									<label style="font-weight: normal !important">Description</label>
+									<label class="form-control"> {{ item.description }} </label>
+								</div>
+							</div>
+							<div class="form-group-row">
+								<div class="col-md-4">
+								</div>
+								<div class="col-md-8">
+									<label style="font-weight: normal !important">Financing product</label>
+									<label class="form-control"> {{ item.financing_product }} </label>
+								</div>
+							</div>
+							<div class="form-group-row">
+								<div class="col-md-4">
+								</div>
+								<div class="col-md-8">
+									<label style="font-weight: normal !important">Invoice total</label>
+									<label class="form-control"> {{ item.invoice_total }} </label>
+								</div>
+							</div>
+
+							<em>Financing</em>
+							<hr/>
+
+							{% for sub_item in item.financing_details %}
+								<div class="form-group-row">
+									<div class="col-md-4">
+										<label style="font-weight: normal !important"> Financed on </label>
+										<label class="form-control"> {{ sub_item.financing_date }} </label>
+									</div>
+									<div class="col-md-4">
+										<label style="font-weight: normal !important"> Financed amount </label>
+										<label class="form-control"> {{ sub_item.financed_amount }} </label>
+									</div>
+									<div class="col-md-4">
+										<label style="font-weight: normal !important"> Transaction cost </label>
+										<label class="form-control"> {{ sub_item.transaction_cost }} </label>
+									</div>
+								</div>
+							{% endfor %}
+
+							<div class="form-group-row">
+								<div class="col-md-4">
+								</div>
+								<div class="col-md-4">
+									<label style="font-weight: normal !important"> Total financed </label>
+									<label class="form-control"> {{ item.total_financed }} </label>
+								</div>
+								<div class="col-md-4">
+									<label style="font-weight: normal !important"> Total transaction cost </label>
+									<label class="form-control"> {{ item.total_transaction_cost }} </label>
+								</div>
+							</div>
+
+							<em>Repayment</em>
+							<hr/>
+
+							{% for sub_item in item.repayment_details %}
+								<div class="form-group-row">
+									<div class="col-md-3">
+										<label style="font-weight: normal !important"> Repaid on </label>
+										<label class="form-control" style="font-size:12px">
+											{{ sub_item.repayment_date }}
+										</label>
+									</div>
+									<div class="col-md-3">
+										<label style="font-weight: normal !important"> Principal repaid </label>
+										<label class="form-control"> {{ sub_item.principal_repaid }} </label>
+									</div>
+									<div class="col-md-3">
+										<label style="font-weight: normal !important"> Repaid amount </label>
+										<label class="form-control"> {{ sub_item.repaid_amount }} </label>
+									</div>
+									<div class="col-md-3">
+										<label style="font-weight: normal !important"> Discount fees </label>
+										<label class="form-control"> {{ sub_item.discount_fees }} </label>
+									</div>
+								</div>
+							{% endfor %}
+
+							<div class="form-group-row">
+								<div class="col-md-3">
+								</div>
+								<div class="col-md-3">
+								</div>
+								<div class="col-md-3">
+									<label style="font-weight: normal !important"> Total repaid </label>
+									<label class="form-control"> {{ item.total_repayments }} </label>
+								</div>
+								<div class="col-md-3">
+									<label style="font-weight: normal !important"> Total discount fees </label>
+									<label class="form-control"> {{ item.total_discount_fees }} </label>
+								</div>
+							</div>
+
+							{% if item.invoice_status != 'CLOSED' %}
+								<em> Dues as of today </em>
+								<hr/>
+
+								<div class="form-group-row">
+									<div class="col-md-3">
+										<label style="font-weight: normal !important"> Accrual period </label>
+										<label class="form-control"> {{ item.accrual_period }} </label>
+									</div>
+									<div class="col-md-3">
+										<label style="font-weight: normal !important"> Applied rate </label>
+										<label class="form-control"> {{ item.applied_rate }} </label>
+									</div>
+									<div class="col-md-3">
+										<label style="font-weight: normal !important"> Discount fees </label>
+										<label class="form-control"> {{ item.discount_fees }} </label>
+									</div>
+									<div class="col-md-3">
+										<label style="font-weight: normal !important"> Repayment due </label>
+										<label class="form-control"> {{ item.repayment_due }} </label>
+									</div>
+								</div>
+							{% endif %}
+
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

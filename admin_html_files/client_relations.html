@@ -1,0 +1,63 @@
+{% extends 'admin_client_layout.html' %}
+
+{% block client_content %}
+
+<a href="add_relation"><button type="button" class="btn btn-primary"> Add Relation </button></a>
+<br><br>
+
+<div class="panel panel-default">
+    <div class="panel-heading panel-heading-custom">
+        <strong> Relations </strong>
+    </div>
+    <div class="panel-body">
+        <table class="table table-condensed table-bordered">
+            <thead class="background-custom">
+                <tr>
+                    <th> Buyer </th>
+                    <th> Supplier </th>
+                    <th> Buyer Fraction </th>
+                    <th> Supplier Fraction </th>
+                    <th> Buyer Approval Allowed </th>
+                    <th> Supplier Approval Allowed </th>
+                    <th> RM </th>
+                    <th> Start Date </th>
+                    <th> End Date </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for relation in client_relations %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" id="buyer_id" name="buyer_id" value="{{ relation.buyer_id }}">
+                        <input type="hidden" id="supplier_id" name="supplier_id" value="{{ relation.supplier_id }}">
+                        <input type="hidden" id="start_date" name="start_date" value="{{ relation.start_date }}">
+                        <tr>
+                            <th> <button type="submit" class="btn btn-link">{{ relation.buyer_name }}</button> </th>
+                            <th> {{ relation.supplier_name }} </th>
+                            <th> <input type="number" value="{{ relation.buyer_fraction }}" disabled> </th>
+                            <th> <input type="number" value="{{ relation.supplier_fraction }}" disabled> </th>
+
+                            {% if relation.buyer_approval is True %}
+                                <th> <input type="checkbox" checked disabled> </th>
+                            {% else %}
+                                <th> <input type="checkbox" disabled> </th>
+                            {% endif %}
+
+                            {% if relation.supplier_approval is True %}
+                                <th> <input type="checkbox" checked disabled> </th>
+                            {% else %}
+                                <th> <input type="checkbox" disabled> </th>
+                            {% endif %}
+
+                            <th> <input type="text" id="rm_name" value="{{ relation.rm_name }}" disabled> </th>
+                            <th> <input type="text" value="{{ relation.start_date }}" disabled> </th>
+                            <th> <input type="text" value="{{ relation.end_date }}" disabled> </th>
+                        </tr>
+                    </form>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

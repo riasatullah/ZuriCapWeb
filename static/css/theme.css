@@ -1,0 +1,32 @@
+body{
+	font-size: 12px;
+}
+
+.panel-default > .panel-heading-custom {
+	background-image: none;
+	background-color: #054763;
+	color: #ffffff;
+}
+
+hr.style-top {
+	height: 10px;
+	border: 0;
+	box-shadow: 0 10px 10px -10px #8c8b8b inset;
+}
+
+.table {
+    font-size: 12px;
+}
+
+.background-custom{
+    background: #054763;
+    color: #ffffff;
+}
+
+.navbar.navbar-custom {
+    background-color: #ffffff;
+    border: 0;
+    margin: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}

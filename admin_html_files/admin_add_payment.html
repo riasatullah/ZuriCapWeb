@@ -1,0 +1,24 @@
+{% extends 'admin_client_layout.html'%}
+
+{% block main_content %}
+
+<div class="panel panel-default col-md-8 col-md-offset-2">
+    <div class="panel-heading panel-heading-custom"> <strong> Add Payment </strong> </div>
+    <div class="panel-body">
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group-row">
+                <label class="col-md-4 form-control"> Paid on: </label>
+                <input class="col-md-8 form-control" type="text">
+            </div>
+            <div class="form-group-row">
+                <label class="col-md-4 form-control"> Amount (KES): </label>
+                <input class="col-md-8 form-control" type="text">
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary"> Add </button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

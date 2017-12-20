@@ -1,0 +1,47 @@
+{% extends 'admin_workzone.html' %}
+
+{% block content %}
+
+<div class="col-md-12">
+	<ul class="pager">
+		{% if row_multiplier > 1 %}
+			<li><a href="prev_rows"> < </a></li>
+		{% endif %}
+		{% if row_count == 100 %}
+			<li><a href="next_rows"> > </a></li>
+		{% endif %}
+	</ul>
+	<div class="panel panel-default">
+		<div class="panel-heading panel-heading-custom">
+			<strong> Payments </strong>
+		</div>
+		<div class="panel-body">
+			<table class="table table-condensed table-bordered">
+				<thead class="background-custom">
+					<tr>
+						<th> Date </th>
+						<th> Description </th>
+                        <th> Currency </th>
+						<th> Debit </th>
+						<th> Credit </th>
+						<th> Transaction Cost </th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for item in data %}
+						<tr>
+							<td> {{ item.payment_date }} </td>
+							<td> {{ item.description }} </td>
+                            <td> {{ item.currency }} </td>
+							<td> {{ item.debit }} </td>
+							<td> {{ item.credit }} </td>
+							<td> {{ item.transaction_cost }} </td>
+						</tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

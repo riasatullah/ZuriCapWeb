@@ -1,0 +1,69 @@
+{% extends 'admin_workzone.html' %}
+
+{% block content %}
+
+<div class="col-md-8 col-md-offset-2">
+
+    <div class="form-group row">
+        <a href="add_client" class="btn btn-primary active pull-right" role="button">
+            <span><i class="glyphicon glyphicon-plus"></i></span>New Client
+        </a>
+        <form>
+            {% csrf_token %}
+            <div class="input-group col-md-8">
+                <span class="input-group-addon"> Seacrh </span>
+                <input type="text" class="form-control" id="client_search" name="client_search"
+                       placeholder="client's name" aria-describedby="invoice_date">
+            </div>
+        </form>
+    </div>
+    <br/>
+
+    <table id="table_clients" class="table table-condensed table-bordered">
+        <thead class="background-custom">
+            <tr>
+                <th> Name </th>
+                <th> Type</th>
+                <th> Industry </th>
+                <th> Status </th>
+            </tr>
+        </thead>
+        <tbody id="ttt">
+            {% for client in data %}
+                <form method="post" action="client_profile">
+                    {% csrf_token %}
+                    <input type="hidden" id="client_id" name="client_id" value={{ client.client_id }}>
+                    <tr>
+                        <td> <button type="submit" class="btn btn-link"> {{ client.client_name }} </button> </td>
+                        <td> {{ client.client_type }} </td>
+                        <td> {{ client.industry }} </td>
+                        <td> {{ client.client_status }} </td>
+                    </tr>
+                </form>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+$('#client_search').keyup(function(){
+    var search_txt = $('#client_search').val();
+    $.ajax({
+        url: "/admin/clients",
+        method: "post",
+        data: {'client_name': search_txt,
+               'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+        },
+        success: function(data){
+            $('#ttt').html(data);
+        },
+        dataType: 'html'
+    });
+});
+});
+</script>
+
+{% endblock %}

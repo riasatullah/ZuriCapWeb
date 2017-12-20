@@ -1,0 +1,117 @@
+{% extends 'workzone.html' %}
+
+{% block content %}
+
+<script language="JavaScript" type="text/javascript">
+	function enableButton(){
+		if (document.getElementById("confirmation").checked){
+			document.getElementById("btn_upload").disabled = false;
+		} else {
+			document.getElementById("btn_upload").disabled = true;
+		}
+	}
+</script>
+
+{% if messages %}
+    <div class="alert alert-success" style="text-align: center; margin-left: 25%; margin-right: 25%">
+        {% for msg in messages %}
+            <strong> {{ msg }} </strong>
+            <br>
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% if has_errors %}
+    <div class="alert alert-danger" style="text-align: center; margin-left: 25%; margin-right: 25%">
+        {% for error in has_errors %}
+            <strong> ** {{ error }} </strong>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<div class="container col-md-8 col-md-offset-2" xmlns="http://www.w3.org/1999/html">
+	<div class="panel panel-default">
+		<div class="panel-heading panel-heading-custom">
+			Upload Invoice
+		</div>
+		<div class="panel-body">
+			<form method="post">
+				{% csrf_token %}
+
+				<div class="form-group row">
+					<label class="col-md-2 col-form-label" for="invoice_date">Invoice date:</label>
+					<div class="col-md-4">
+						<input type="text" id="invoice_date" name="invoice_date"
+							   class="form-control" placeholder="YYYY-MM-DD">
+					</div>
+				</div>
+				<br>
+
+				<div class="form-group row">
+					<label class="col-md-2 col-form-label" for="client">Client:</label>
+					<div class="col-md-4">
+						<select class="form-control" id="client" name="client">
+							{% for client_id, client_name in client_relations %}
+								<option value={{ client_id }}> {{ client_name }} </option>
+							{% endfor %}
+						</select>
+					</div>
+
+					<label class="col-md-2 col-form-label" for="description">Description:</label>
+					<div class="col-md-4">
+						<input type="text" id="description" name="description" class="form-control"
+							   placeholder="" maxlength="140">
+					</div>
+				</div>
+				<br>
+
+				<div class="form-group row">
+					<label class="col-md-2 col-form-label" for="financing_product">Financing product:</label>
+					<div class="col-md-4">
+						<select class="form-control" id="financing_product" name="financing_product">
+							<option selected value=1>Sweep</option>
+							<option value=2>Magna</option>
+							<option value=3>Block</option>
+						</select>
+					</div>
+
+					<label class="col-md-2 col-form-label" for="amount">Amount (KES):</label>
+					<div class="col-md-4">
+						<input type="text" id="amount" name="amount" class="form-control" placeholder="">
+					</div>
+				</div>
+				<br>
+
+				<div class="form-group row">
+					<label class="col-md-2 col-form-label" for="input_file">Invoice:</label>
+					<div class="col-md-4">
+						<input type="file" class="form-control-file" id="input_file">
+					</div>
+				</div>
+				<br>
+
+				<div class="form-group row">
+					<label class="col-md-12 custom-control custom-checkbox">
+						<input type="checkbox" class="custom-control-input" id="confirmation"
+							   onclick="enableButton()">
+						<span class="custom-control-description">
+							By checking this box I am approving and requesting ZuriCap to finance this invoice
+						</span>
+					</label>
+				</div>
+				<br>
+
+				<div class="row col-md-3">
+					<button type="submit" class="btn btn-labeled btn-primary" id="btn_upload" disabled>
+					<span class="btn-label">
+						<i class="glyphicon glyphicon-upload"></i>
+					</span>
+						Upload
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
